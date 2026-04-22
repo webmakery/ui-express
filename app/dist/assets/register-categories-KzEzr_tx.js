@@ -1,2 +1,0 @@
-import{b as i}from"./HooksSystem-BPnuSTTA.js";import{u as r}from"./_plugin-vue_export-helper-BnLnnI8j.js";const t=()=>{var e,a;return!!((a=(e=r().state)==null?void 0:e.uixpress_settings)!=null&&a.enable_uixpress_analytics)};i("uixpress/dashboard/categories/register",s=>{const e=[...s,{value:"site",label:(0,window.wp.i18n.__)("Overview","uixpress")}];return t()&&e.push({value:"analytics",label:(0,window.wp.i18n.__)("Analytics","uixpress")}),e});
-//# sourceMappingURL=register-categories-KzEzr_tx.js.map

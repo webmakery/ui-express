@@ -3,6 +3,10 @@
 = 1.2.21 =
 * Release date 5 April 2026 *
 
+* Licensing and entitlement update
+  - Converted plugin distribution licensing to GPLv2-or-later across bundled first-party code and assets
+  - Removed commercial license-key activation and feature-gating logic from updater, options, and settings UI
+
 * Fixed Gravatar / email hashing on non-secure HTTP URLs
   - encodeToHash used Web Crypto subtle.digest, which is unavailable outside secure contexts (HTTPS or localhost)
   - Sites on plain HTTP (e.g. Local .local domains) threw "Cannot read properties of undefined (reading 'digest')"

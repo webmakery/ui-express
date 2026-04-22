@@ -113,9 +113,7 @@ export default {
       const excludedModules = ["responsive-grid", "uip-admin-menu", "uip-user-meta-block"];
 
       return Object.entries(this.returnGroups).map(([catKey, catValue]) => {
-        const sortedBlocks = this.uipApp.data.blocks
-          .filter((block) => block.group === catKey && !excludedModules.includes(block.moduleName) && this.componentExists(block))
-          .sort((a, b) => a.name.localeCompare(b.name));
+        const sortedBlocks = this.uipApp.data.blocks.filter((block) => block.group === catKey && !excludedModules.includes(block.moduleName)).sort((a, b) => a.name.localeCompare(b.name));
 
         return {
           name: catValue.label,
@@ -344,6 +342,23 @@ export default {
                          </div>
                        </div>
                        
+                      <div v-else @mouseenter="element.hover=true" @mouseleave="element.hover = false"
+                      class="uip-border-rounder uip-link-default hover:uip-background-muted uip-cursor-pointer uip-block-drag uip-no-text-select">
+                        <div class="uip-flex uip-gap-xxs uip-flex-center">
+                          <div class="uip-icon uip-icon-medium uip-text-l uip-padding-xxs uip-background-green-wash uip-border-rounder uip-margin-right-xs">
+                            <span>redeem</span>
+                          </div> 
+                          <div class="uip-text-s uip-flex-grow">{{element.name}}</div>
+                          
+                          <a v-show="element.hover"
+                          href="https://uipress.co?utm_source=uipressupgrade&utm_medium=referral" 
+                          target="_BLANK" 
+                          class="uip-link-muted uip-flex uip-gap-xxxs uip-no-underline uip-flex-center uip-padding-right-xxs uip-fade-in">
+                            <span class="uip-text-s">{{strings.upgrade}}</span>
+                            <span class="uip-icon">chevron_right</span>
+                          </a>
+                        </div>
+                      </div>
                       
                   
                   </template>

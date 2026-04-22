@@ -155,7 +155,7 @@ class UipScripts
 
     wp_print_script_tag([
       "id" => "uip-app-js",
-      "src" => uip_plugin_url . "assets/js/uip/uipApp.js?ver=" . uip_plugin_version,
+      "src" => uip_plugin_url . "assets/js/uip/uipApp.min.js?ver=" . uip_plugin_version,
       "type" => "module",
     ]);
   }

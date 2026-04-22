@@ -545,8 +545,10 @@ export default {
     // Build the main block args
     const blockTemplate = this.$root._.appContext.components[this.block.moduleName];
 
-    // Doesn't exist so skip rendering it
+    // Doesn't exist so it's like a pro component
     if (!blockTemplate) {
+      const noblocknode = h("div", { innerHTML: this.strings.proOptionUnlock, class: "uip-padding-xxs uip-border-rounder uip-background-green-wash uip-text-s uip-text-normal" });
+      nodes.push(noblocknode);
       return nodes;
     }
 

@@ -40,6 +40,10 @@ class Updater
       return $res;
     }
 
+    if (!is_object($args) || !isset($args->slug)) {
+      return $res;
+    }
+
     if (true == get_transient(self::$transientFailed)) {
       return $res;
     }
@@ -56,7 +60,14 @@ class Updater
       return $res;
     }
 
+    if (!is_array($remote) || !isset($remote["body"])) {
+      return $res;
+    }
+
     $remote = json_decode($remote["body"], true);
+    if (!is_array($remote)) {
+      return $res;
+    }
 
     // Check for error response
     if (isset($remote["error"]) && $remote["error"] === true) {
@@ -163,15 +174,19 @@ class Updater
    */
   private static function is_response_clean($status)
   {
-    if (isset($status->errors)) {
-      return false;
-    }
-
-    if (isset($status["response"]["code"]) && $status["response"]["code"] != 200) {
-      return false;
-    }
-
     if (is_wp_error($status)) {
+      return false;
+    }
+
+    if (!is_array($status)) {
+      return false;
+    }
+
+    if (!isset($status["response"]["code"]) || (int) $status["response"]["code"] !== 200) {
+      return false;
+    }
+
+    if (!isset($status["body"]) || !is_string($status["body"])) {
       return false;
     }
 
@@ -201,7 +216,14 @@ class Updater
       return $transient;
     }
 
+    if (!is_array($remote) || !isset($remote["body"])) {
+      return $transient;
+    }
+
     $remote = json_decode($remote["body"], true);
+    if (!is_array($remote)) {
+      return $transient;
+    }
 
     // Check for error response
     if (isset($remote["error"]) && $remote["error"] === true) {

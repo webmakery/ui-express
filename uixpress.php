@@ -17,13 +17,18 @@
 // If this file is called directly, abort.
 !defined("ABSPATH") ? exit() : "";
 
-define("uixpress_plugin_version", "1.2.21");
-define("uixpress_plugin_path", plugin_dir_path(__FILE__));
+if (!defined("uixpress_plugin_version")) {
+  define("uixpress_plugin_version", "1.2.21");
+}
 
-require uixpress_plugin_path . "admin/vendor/autoload.php";
+if (!defined("uixpress_plugin_path")) {
+  define("uixpress_plugin_path", plugin_dir_path(__FILE__));
+}
+
+require_once uixpress_plugin_path . "admin/vendor/autoload.php";
 
 // Load custom field helper functions (global functions for theme developers)
-require uixpress_plugin_path . "admin/src/Rest/CustomFields/FieldHelpers.php";
+require_once uixpress_plugin_path . "admin/src/Rest/CustomFields/FieldHelpers.php";
 
 // Start app
 new UiXpress\App\UiXpress();

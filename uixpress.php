@@ -10,7 +10,7 @@
  * Requires PHP: 7.4
  * Requires at least: 5.5
  * Update URI: https://accounts.uipress.co/api/v1/uixpress/update
- * License: GPLv2 or later for PHP code, proprietary license for other assets
+ * License: GPLv2 or later
  * License URI: licence.txt
  */
 

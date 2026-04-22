@@ -50,12 +50,6 @@ class GlobalOptions
         "schema" => [
           "type" => "object",
           "properties" => [
-            "license_key" => [
-              "type" => "string",
-            ],
-            "instance_id" => [
-              "type" => "string",
-            ],
             "plugin_name" => [
               "type" => "string",
             ],
@@ -291,14 +285,6 @@ class GlobalOptions
     $sanitized_value = [];
     $options = get_option("uixpress_settings", false);
     $options = !$options ? [] : $options;
-
-    if (isset($value["license_key"])) {
-      $sanitized_value["license_key"] = sanitize_text_field($value["license_key"]);
-    }
-
-    if (isset($value["instance_id"])) {
-      $sanitized_value["instance_id"] = sanitize_text_field($value["instance_id"]);
-    }
 
     if (isset($value["plugin_name"])) {
       $sanitized_value["plugin_name"] = sanitize_text_field($value["plugin_name"]);

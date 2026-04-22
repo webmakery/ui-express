@@ -1,8 +1,6 @@
 <?php
 namespace UiXpress\Update;
 
-use UiXpress\Options\Settings;
-
 // Prevent direct access to this file
 !defined("ABSPATH") ? exit() : "";
 
@@ -124,12 +122,6 @@ class Updater
       "version" => self::$version,
     ];
 
-    // Get license key from plugin options
-    $license_key = self::get_license_key();
-    if (!empty($license_key)) {
-      $query_args["license_key"] = $license_key;
-    }
-
     // Build URL with query parameters
     $url = add_query_arg($query_args, self::$updateURL);
 
@@ -161,20 +153,6 @@ class Updater
     return $remote;
   }
 
-  /**
-   * Gets the license key from plugin options
-   *
-   * @return string License key or empty string
-   * @since 3.2.0
-   */
-  private static function get_license_key()
-  {
-    // Get license key from global options using Settings class
-    $license_key = Settings::get_setting("license_key", "");
-
-    // Allow filtering the license key
-    return apply_filters("uixpress_license_key", $license_key);
-  }
 
   /**
    * Checks if the response is clean and valid

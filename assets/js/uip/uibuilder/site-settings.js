@@ -183,6 +183,15 @@ export default {
       return group.condition(this.globalSettings);
     },
 
+
+    isOptionVisible(option) {
+      return !option.proOption && this.conditionalShowGroup(option);
+    },
+
+    visibleGroupSettings(group) {
+      if (!Array.isArray(group.settings)) return [];
+      return group.settings.filter((option) => this.isOptionVisible(option));
+    },
     /**
      * Returns whether an item is in a given search
      *
@@ -313,7 +322,7 @@ export default {
                       <!--Loop through group settings -->
                       
                       <template v-for="option in group.settings">
-                        <template v-if="conditionalShowGroup(option) && inSearch(option)">
+                        <template v-if="isOptionVisible(option) && inSearch(option)">
                           <div class="uip-flex uip-flex-column uip-row-gap-xs uip-flex-start">
                           
                             
@@ -324,11 +333,7 @@ export default {
                             </div>
                             <div v-if="option.help" class="uip-text-s uip-text-muted">{{option.help}}</div>
                             
-                            <a href="https://uipress.co?utm_source=uipressupgrade&utm_medium=referral" target="_BLANK" v-if="option.proOption" class="uip-padding-xxs uip-border-round uip-background-green-wash uip-text-s uip-link-default uip-no-underline">
-                              {{ui.strings.proOption}}
-                            </a>
-                            
-                            <component v-else :is="option.component" :value="returnTemplateOption(group.name, option)" :args="option.args"
+                            <component :is="option.component" :value="returnTemplateOption(group.name, option)" :args="option.args"
                             :returnData="function(data){saveTemplateOption(group.name, option.uniqueKey, data)}" class="uip-inline-flex"></component>
                           
                           </div>
@@ -343,7 +348,7 @@ export default {
               
               <!-- Dynamic settings -->
               <template v-else v-for="(group, index) in uipApp.data.globalGroupOptions">
-                <accordion :openOnTick="false" v-if="conditionalShowGroup(group)">
+                <accordion :openOnTick="false" v-if="conditionalShowGroup(group) && visibleGroupSettings(group).length">
                   <template v-slot:title>
                     <div class="uip-flex-grow uip-flex uip-gap-xxs uip-flex-center uip-text-bold">
                       <div class="">{{group.label}}</div>
@@ -353,8 +358,8 @@ export default {
                     <div class="uip-padding-xs uip-padding-left-m uip-flex uip-flex-column uip-row-gap-s">
                       <!--Loop through group settings -->
                       
-                      <template v-for="option in group.settings" v-if="render">
-                        <div v-if="conditionalShowGroup(option)"  class="uip-grid-col-4-6">
+                      <template v-for="option in visibleGroupSettings(group)" v-if="render">
+                        <div class="uip-grid-col-4-6">
                           
                           <div class="uip-flex uip-flex-center uip-gap-xs uip-h-30">
                           
@@ -379,10 +384,7 @@ export default {
                           
                           
                           <div class="uip-w-100p">
-                            <a href="https://uipress.co?utm_source=uipressupgrade&utm_medium=referral" target="_BLANK" v-if="option.proOption" class="uip-padding-xxs uip-border-round uip-background-green-wash uip-text-s uip-link-default uip-no-underline uip-w-100p uip-text-center uip-flex">
-                              {{ui.strings.proOption}}
-                            </a>
-                            <component v-else :is="option.component" :value="returnTemplateOption(group.name, option)" :args="option.args"
+                            <component :is="option.component" :value="returnTemplateOption(group.name, option)" :args="option.args"
                             :returnData="function(data){saveTemplateOption(group.name, option.uniqueKey, data)}"></component>
                           </div>
                         
@@ -397,7 +399,7 @@ export default {
                     </div>
                   </template>
                 </accordion>
-                <div class="uip-border-top" v-if="conditionalShowGroup(group)"></div>
+                <div class="uip-border-top" v-if="conditionalShowGroup(group) && visibleGroupSettings(group).length"></div>
               </template>
               <!-- End dynamic settings -->
             </div>

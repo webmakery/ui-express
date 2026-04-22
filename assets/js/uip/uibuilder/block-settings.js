@@ -1199,7 +1199,10 @@ export default {
       if (blockOptionsIndex < 0) return [];
       return allBlockSettings[blockOptionsIndex].options;
     },
-  },
+     returnVisibleBlockOptions() {
+      return this.returnBlockOptions.filter((option) => this.componentExists(option.componentName) && this.isAvailable(option));
+    },
+ },
   methods: {
     /**
      * Opens block settings
@@ -1444,17 +1447,12 @@ export default {
             </ToggleSection>
             <!-- End general settings -->
             
-            <div class="uip-border-top"></div>
+            <div v-if="uiTemplate.proActivated" class="uip-border-top"></div>
             
             <!-- Query loop  -->
-            <ToggleSection :title="strings.queryLoop">
+            <ToggleSection v-if="uiTemplate.proActivated" :title="strings.queryLoop">
             
-              <QueryBuilder v-if="uiTemplate.proActivated" :block="block" :value="returnBlockQuerySettings" :returnData="(d)=>{ block.query.settings = d}"/>
-              
-              <div class="uip-grid-col-1-3" v-else>
-                <div class="uip-text-muted uip-flex uip-flex-center uip-text-s"><span>{{ strings.queryLoop }}</span></div>
-                <div class="uip-padding-xxs uip-border-rounder uip-background-green-wash uip-text-s">{{strings.proOption}}</div>
-              </div>
+              <QueryBuilder :block="block" :value="returnBlockQuerySettings" :returnData="(d)=>{ block.query.settings = d}"/>
               
             </ToggleSection>
             <!-- End query -->
@@ -1469,14 +1467,14 @@ export default {
             </ToggleSection>
             <!-- End Responsive -->
             
-            <div class="uip-border-top" v-if="returnBlockOptions.length"></div>
+            <div class="uip-border-top" v-if="returnVisibleBlockOptions.length"></div>
             
             <!-- Block options  -->
-            <ToggleSection :title="strings.options" :startOpen="true" v-if="returnBlockOptions.length">
+            <ToggleSection :title="strings.options" :startOpen="true" v-if="returnVisibleBlockOptions.length">
                   
                   <div class="uip-flex uip-flex-column uip-row-gap-xs">
                   
-                    <template v-for="option in returnBlockOptions">
+                    <template v-for="option in returnVisibleBlockOptions">
                       
                       <div :class="optionFullWidth(option) ? 'uip-flex uip-flex-column uip-row-gap-xxs' : 'uip-grid-col-1-3'">
                       
@@ -1496,15 +1494,10 @@ export default {
                           
                         <div class="uip-flex uip-flex-center uip-w-100p">
                         
-                          <component v-if="componentExists(option.componentName) && isAvailable(option)" 
-                          :is="option.componentName"
+                          <component :is="option.componentName" 
                           v-bind="option"
                           :value="returnBlockSettingValue(option)"
                           :returnData="(data)=>handleBlockSettingUpdate(option, data)"/>
-                          
-                          <div v-else class="uip-padding-xxs uip-border-rounder uip-background-green-wash uip-text-s">
-                             {{strings.proOption}}
-                          </div>
                         </div>
                         
                       </div>
